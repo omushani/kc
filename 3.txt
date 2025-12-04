@@ -1,0 +1,251 @@
+1. Create a Git branching story project where each branch adds a chapter and merge all into a final book.html.
+
+2. Develop a simple Java user-interactive containerized application (e.g., calculator) using Docker.
+
+3. Automate deployment of that containerized application using Kubernetes Deployment + Service.
+
+1️⃣ Git branching story project – chapters → final book.html
+Idea
+
+main branch: basic structure of book.html
+
+chapter1, chapter2, chapter3 branches: each adds a chapter
+
+Finally merge all into main → final book.html
+
+Step 1: Create project
+mkdir story-book
+cd story-book
+git init
+
+
+Create book.html:
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Story Book</title>
+</head>
+<body>
+    <h1>My Story Book</h1>
+    <!-- Chapters will be added here -->
+</body>
+</html>
+
+
+Add & commit:
+
+git add book.html
+git commit -m "Initial book with title"
+
+Step 2: Create chapter1 branch
+git checkout -b chapter1
+
+
+Edit book.html to add chapter 1:
+
+<body>
+    <h1>My Story Book</h1>
+
+    <h2>Chapter 1</h2>
+    <p>Once upon a time, there was a student learning Git branching.</p>
+</body>
+
+
+Commit:
+
+git add book.html
+git commit -m "Add Chapter 1"
+
+Step 3: Create chapter2 branch from main
+
+Go back to main:
+
+git checkout main
+
+
+Create and switch to chapter2:
+
+git checkout -b chapter2
+
+
+Edit book.html:
+
+<body>
+    <h1>My Story Book</h1>
+
+    <h2>Chapter 2</h2>
+    <p>The student used branches to write different parts of the story.</p>
+</body>
+
+
+Commit:
+
+git add book.html
+git commit -m "Add Chapter 2"
+
+Step 4: Create chapter3 branch from main (same idea)
+git checkout main
+git checkout -b chapter3
+
+
+Edit book.html:
+
+<body>
+    <h1>My Story Book</h1>
+
+    <h2>Chapter 3</h2>
+    <p>Finally, all branches were merged into one complete book.</p>
+</body>
+
+
+Commit:
+
+git add book.html
+git commit -m "Add Chapter 3"
+
+Step 5: Merge all chapters into main
+
+Back to main:
+
+git checkout main
+
+
+Merge branches one by one:
+
+git merge chapter1
+git merge chapter2
+git merge chapter3
+
+
+If Git asks to resolve conflicts, just keep all chapter sections.
+
+2)
+import java.util.Scanner;
+
+public class Calculator {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.println("Simple Calculator");
+        System.out.print("Enter first number: ");
+        double a = sc.nextDouble();
+
+        System.out.print("Enter second number: ");
+        double b = sc.nextDouble();
+
+        System.out.println("Choose operation: +  -  *  /");
+        char op = sc.next().charAt(0);
+
+        double result = 0;
+        boolean valid = true;
+
+        switch (op) {
+            case '+': result = a + b; break;
+            case '-': result = a - b; break;
+            case '*': result = a * b; break;
+            case '/':
+                if (b != 0) result = a / b;
+                else {
+                    System.out.println("Cannot divide by zero");
+                    valid = false;
+                }
+                break;
+            default:
+                System.out.println("Invalid operation");
+                valid = false;
+        }
+
+        if (valid) {
+            System.out.println("Result = " + result);
+        }
+
+        sc.close();
+    }
+}
+
+Step 2: Dockerfile
+
+Create file Dockerfile in same folder:
+
+# Use OpenJDK image
+FROM openjdk:17-jdk-alpine
+
+# Set working directory
+WORKDIR /app
+
+# Copy Java source file into container
+COPY Calculator.java .
+
+# Compile Java program
+RUN javac Calculator.java
+
+# Run the program
+CMD ["java", "Calculator"]
+
+3)Step 1: deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: java-calculator-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: java-calculator
+  template:
+    metadata:
+      labels:
+        app: java-calculator
+    spec:
+      containers:
+        - name: java-calculator-container
+          image: yourname/java-calculator:latest
+          # If using local cluster (like Minikube with local image), you can keep your local name
+          imagePullPolicy: IfNotPresent
+          tty: true
+          stdin: true
+
+
+tty: true and stdin: true allow interaction via kubectl exec -it.
+
+Step 2: service.yaml (basic example)
+
+Even though it’s not HTTP, we can define a Service for exam purposes.
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: java-calculator-service
+spec:
+  selector:
+    app: java-calculator
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+  type: ClusterIP
+
+
+(Port won’t actually be used by the console app, but this shows a standard Service resource.)
+
+Step 3: Apply on Kubernetes
+kubectl apply -f deployment.yaml
+kubectl apply -f service.yaml
+
+
+Check status:
+
+kubectl get pods
+kubectl get svc
+
+Step 4: Interact with the calculator inside the pod
+
+Find pod name:
+
+kubectl get pods
+
+
+Then attach:
+
+kubectl exec -it <pod-name> -- java Calculator

@@ -1,0 +1,166 @@
+1. Create an HTML registration form (username, password, confirm password) and upload it to GitHub.
+
+2. Create a Docker Compose setup to run two simple applications together.
+
+3. Create a Jenkins Freestyle job that prints “Hello STUDENT_NAME, Welcome to Jenkins!” using a string parameter.
+
+
+1)
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration Form</title>
+</head>
+<body>
+    <h2>Registration Form</h2>
+    <form>
+        <label for="username">Username:</label><br>
+        <input type="text" id="username" name="username" required><br><br>
+
+        <label for="password">Password:</label><br>
+        <input type="password" id="password" name="password" required><br><br>
+
+        <label for="confirm_password">Confirm Password:</label><br>
+        <input type="password" id="confirm_password" name="confirm_password" required><br><br>
+
+        <input type="submit" value="Register">
+    </form>
+</body>
+</html>
+
+
+cd C:\Users\<you>\Desktop\registration-form
+
+git init
+git add registration.html
+git commit -m "Add registration form"
+git remote add origin https://github.com/YOUR_USERNAME/registration-form.git
+git branch -M main
+git push -u origin main
+
+
+
+2)
+## ✅ 1. Create These 3 Files in One Folder
+
+### 🔹 `app1.py` (First App – Python)
+
+```python
+print("Hello from App 1")
+```
+
+### 🔹 `app2.py` (Second App – Python)
+
+```python
+print("Hello from App 2")
+```
+
+### 🔹 `Dockerfile` (Same Dockerfile for both apps)
+
+```dockerfile
+FROM python:3.9
+WORKDIR /app
+COPY . .
+CMD ["python", "app1.py"]
+```
+
+---
+
+## ✅ 2. Docker Compose File (Very Simple)
+
+### 🔹 `docker-compose.yml`
+
+```yaml
+version: "3"
+
+services:
+  app1:
+    build: .
+    command: python app1.py
+
+  app2:
+    build: .
+    command: python app2.py
+```
+
+---
+
+## ✅ 3. Run Both Apps Together
+
+
+docker-compose up --build
+
+
+## ✅ 4. Output You Will See
+
+```
+Hello from App 1
+Hello from App 2
+```
+
+Both applications run **together using one command**.
+
+3)3. Jenkins Freestyle Job with String Parameter
+
+Goal: When you build the job with a parameter STUDENT_NAME, it prints:
+
+Hello STUDENT_NAME, Welcome to Jenkins!
+
+(but with the actual name substituted)
+
+Step-by-step (Linux shell build step)
+
+Open Jenkins dashboard.
+
+Click New Item.
+
+Enter a name, e.g. Hello-Student-Job.
+
+Select Freestyle project → click OK.
+
+On the job config page:
+
+Tick This project is parameterized.
+
+Click Add Parameter → choose String Parameter.
+
+Fill:
+
+Name: STUDENT_NAME
+
+Default Value: e.g. Omprasad
+
+(Optional) Description: Enter your name
+
+Scroll to Build section → click Add build step →
+
+In Build → Add build step → Execute Windows batch command:
+In the command box, put:
+In Build → Add build step → Execute Windows batch command:
+
+echo Hello %STUDENT_NAME%, Welcome to Jenkins!
+
+
+
+
+
+Click Save.
+
+To run it:
+
+Open the job → click Build with Parameters.
+
+Enter a value for STUDENT_NAME (e.g., Omprasad).
+
+Click Build.
+
+Open the build → Console Output → you should see:
+
+Hello Omprasad, Welcome to Jenkins!
+
+
+
+
+
+

@@ -1,0 +1,130 @@
+1. Create a simple HTML page to display tables and lists (any structure) and push it to GitHub.
+
+2. Build a multi-stage Git branching task where each branch stores a part of a secret message and merge into main.
+
+3. Write a JavaScript program for Calculator  and test it using Selenium WebDriver.
+
+1)
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tables and Lists</title>
+</head>
+<body>
+    <h2>Student Marks Table</h2>
+    <table border="1" cellpadding="5">
+        <tr>
+            <th>Name</th>
+            <th>Subject</th>
+            <th>Marks</th>
+        </tr>
+        <tr>
+            <td>Rahul</td>
+            <td>Maths</td>
+            <td>90</td>
+        </tr>
+        <tr>
+            <td>Anita</td>
+            <td>Science</td>
+            <td>88</td>
+        </tr>
+    </table>
+
+    <h2>Favourite Fruits (Ordered List)</h2>
+    <ol>
+        <li>Apple</li>
+        <li>Mango</li>
+        <li>Banana</li>
+    </ol>
+
+    <h2>Hobbies (Unordered List)</h2>
+    <ul>
+        <li>Reading</li>
+        <li>Music</li>
+        <li>Gaming</li>
+    </ul>
+</body>
+</html>
+
+
+2)
+
+# 1. Init repo
+git init
+echo "" > secret.txt
+git add secret.txt
+git commit -m "Create empty secret file"
+
+# 2. Branch 1 - adds HELLO
+git checkout -b part1
+echo "HELLO" > secret.txt
+git commit -am "Add first word"
+
+# 3. Branch 2 - adds FROM
+git checkout main
+git checkout -b part2
+echo "FROM" >> secret.txt
+git commit -am "Add second word"
+
+# 4. Branch 3 - adds DEVOPS
+git checkout main
+git checkout -b part3
+echo "DEVOPS" >> secret.txt
+git commit -am "Add third word"
+
+# 5. Merge all parts into main
+git checkout main
+git merge part1
+git merge part2
+git merge part3
+
+# secret.txt now contains full message
+cat secret.txt
+
+
+3)
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.edge.EdgeDriver;
+
+public class CalculatorTest {
+    public static void main(String[] args) {
+
+        System.setProperty("webdriver.edge.driver", "C:\\drivers\\msedgedriver.exe");
+        WebDriver driver = new EdgeDriver();
+
+        driver.get("http://localhost:8080/calculator.html");
+
+        driver.findElement(By.id("num1")).sendKeys("5");
+        driver.findElement(By.id("num2")).sendKeys("7");
+        driver.findElement(By.id("addBtn")).click();
+
+        String result = driver.findElement(By.id("result")).getText();
+        System.out.println("Result: " + result);
+
+        driver.quit();
+    }
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Calculator</title>
+    <script>
+        function add() {
+            var a = parseFloat(document.getElementById("num1").value);
+            var b = parseFloat(document.getElementById("num2").value);
+            document.getElementById("result").innerText = a + b;
+        }
+    </script>
+</head>
+<body>
+    <h2>Calculator (Addition)</h2>
+
+    <input id="num1" type="text" placeholder="Number 1">
+    <input id="num2" type="text" placeholder="Number 2">
+    <button id="addBtn" onclick="add()">Add</button>
+
+    <h3>Result: <span id="result"></span></h3>
+</body>
+</html>

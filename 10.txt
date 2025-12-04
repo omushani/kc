@@ -1,0 +1,123 @@
+1. Create an HTML page with a Pizza Order form and commit it to GitHub.
+
+2. Write installation steps for Selenium and execute a JavaScript (Node.js) Selenium script for UI testing.
+
+3. Develop Selenium test cases for the containerized application you created in the previous questions.
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pizza Order Form</title>
+</head>
+<body>
+    <h2>Pizza Order Form</h2>
+
+    <form>
+        <label>Name:</label><br>
+        <input type="text" name="name" required><br><br>
+
+        <label>Pizza Size:</label><br>
+        <select name="size">
+            <option>Small</option>
+            <option>Medium</option>
+            <option>Large</option>
+        </select><br><br>
+
+        <label>Toppings:</label><br>
+        <input type="checkbox" name="topping" value="Cheese"> Cheese<br>
+        <input type="checkbox" name="topping" value="Corn"> Corn<br>
+        <input type="checkbox" name="topping" value="Paneer"> Paneer<br><br>
+
+        <label>Quantity:</label><br>
+        <input type="number" name="qty" value="1" min="1"><br><br>
+
+        <label>Address:</label><br>
+        <textarea name="address" rows="3"></textarea><br><br>
+
+        <input type="submit" value="Place Order">
+    </form>
+</body>
+</html>
+
+
+2)
+/*package firstselenium;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.edge.EdgeDriver;
+
+public class FirstSelenium { 
+    public static void main(String[] args) { 
+        
+        // Correct EdgeDriver path
+        System.setProperty("webdriver.edge.driver", 
+                "C:\\Users\\91934\\Documents\\WebDriver\\msedgedriver.exe");
+        
+        // Start Edge browser
+        WebDriver driver = new EdgeDriver(); 
+        
+        try { 
+            // Open Google
+            driver.get("https://www.google.com"); 
+            
+            // Print title
+            System.out.println("Title: " + driver.getTitle()); 
+            
+            // Wait 5 seconds
+            Thread.sleep(5000); 
+            
+        } catch (Exception e) { 
+            System.out.println("Error: " + e.getMessage());
+            
+        } finally { 
+            // Close browser always
+            driver.quit(); 
+        } 
+    } 
+}*/
+
+3)import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.edge.EdgeDriver;
+
+public class CalculatorTest {
+    public static void main(String[] args) {
+
+        System.setProperty("webdriver.edge.driver", "C:\\drivers\\msedgedriver.exe");
+        WebDriver driver = new EdgeDriver();
+
+        driver.get("http://localhost:8080/calculator.html");
+
+        driver.findElement(By.id("num1")).sendKeys("5");
+        driver.findElement(By.id("num2")).sendKeys("7");
+        driver.findElement(By.id("addBtn")).click();
+
+        String result = driver.findElement(By.id("result")).getText();
+        System.out.println("Result: " + result);
+
+        driver.quit();
+    }
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Calculator</title>
+    <script>
+        function add() {
+            var a = parseFloat(document.getElementById("num1").value);
+            var b = parseFloat(document.getElementById("num2").value);
+            document.getElementById("result").innerText = a + b;
+        }
+    </script>
+</head>
+<body>
+    <h2>Calculator (Addition)</h2>
+
+    <input id="num1" type="text" placeholder="Number 1">
+    <input id="num2" type="text" placeholder="Number 2">
+    <button id="addBtn" onclick="add()">Add</button>
+
+    <h3>Result: <span id="result"></span></h3>
+</body>
+</html>

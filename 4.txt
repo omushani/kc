@@ -1,0 +1,94 @@
+1. Build an HTML page with a profile card (photo, name, description) and push it to GitHub.
+
+2. List the installation steps for Docker and demonstrate container/content management commands.
+
+3. Run a Java Selenium script to test Google and MGIT website.
+
+1)
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Profile Card</title>
+</head>
+<body>
+    <h2>My Profile</h2>
+
+    <div style="border:1px solid black; width:250px; padding:10px;">
+        <img src="photo.jpg" alt="My Photo" width="100" height="100"><br><br>
+
+        <b>Name:</b> Om Prasad<br><br>
+
+        <b>About me:</b><br>
+        <p>I am a CSE student who likes coding and web development.</p>
+    </div>
+
+</body>
+</html>
+
+2)
+b) Important Docker commands (container/content management)
+
+Write like this in exam:
+
+# Check Docker version
+docker --version
+
+# List images
+docker images
+
+# Pull an image
+docker pull nginx
+
+# Run a container
+docker run -d --name myweb -p 8080:80 nginx
+
+# List running containers
+docker ps
+
+# List all containers
+docker ps -a
+
+# See logs of a container
+docker logs myweb
+
+# Open shell inside container
+docker exec -it myweb /bin/bash
+
+# Stop a container
+docker stop myweb
+
+# Start a container
+docker start myweb
+
+# Remove a container
+docker rm myweb
+
+# Remove an image
+docker rmi nginx
+
+3)
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.edge.EdgeDriver;
+
+public class TestEdge {
+    public static void main(String[] args) {
+
+        // Set path of Edge Driver
+        System.setProperty("webdriver.edge.driver", "C:\\drivers\\msedgedriver.exe");
+
+        // Open Edge Browser
+        WebDriver driver = new EdgeDriver();
+
+        // Open Google
+        driver.get("https://www.google.com");
+        System.out.println("Google Title: " + driver.getTitle());
+
+        // Open MGIT Website
+        driver.get("https://mgit.ac.in");
+        System.out.println("MGIT Title: " + driver.getTitle());
+
+        // Close Browser
+        driver.quit();
+    }
+}
+

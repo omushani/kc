@@ -1,0 +1,153 @@
+1. Design an HTML Weekly Timetable and upload it to GitHub.
+
+2. Write steps to integrate Kubernetes with Docker, and explore basic kubectl commands.
+
+3. Create a job that runs every 2 minutes and prints the system date/time in Jenkins.
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Weekly Timetable</title>
+</head>
+<body>
+    <h2>My Weekly Timetable</h2>
+
+    <table border="1" cellpadding="8">
+        <tr>
+            <th>Day</th>
+            <th>9-10</th>
+            <th>10-11</th>
+            <th>11-12</th>
+            <th>2-3</th>
+            <th>3-4</th>
+        </tr>
+        <tr>
+            <td>Monday</td>
+            <td>Maths</td>
+            <td>DS</td>
+            <td>Break</td>
+            <td>DBMS</td>
+            <td>Lab</td>
+        </tr>
+        <tr>
+            <td>Tuesday</td>
+            <td>DBMS</td>
+            <td>OS</td>
+            <td>Break</td>
+            <td>Maths</td>
+            <td>Sports</td>
+        </tr>
+        <tr>
+            <td>Wednesday</td>
+            <td>OS</td>
+            <td>DS</td>
+            <td>Break</td>
+            <td>DBMS</td>
+            <td>Lab</td>
+        </tr>
+        <tr>
+            <td>Thursday</td>
+            <td>Maths</td>
+            <td>OS</td>
+            <td>Break</td>
+            <td>Elective</td>
+            <td>Library</td>
+        </tr>
+        <tr>
+            <td>Friday</td>
+            <td>DBMS</td>
+            <td>DS</td>
+            <td>Break</td>
+            <td>Project</td>
+            <td>Seminar</td>
+        </tr>
+    </table>
+
+</body>
+</html>
+2)
+2️⃣ Integrate Kubernetes with Docker + Basic kubectl Commands
+
+In exams, they expect concept + few commands. Keep it short.
+
+a) Steps to integrate Kubernetes with Docker
+
+You can write:
+
+Install Docker – to build and run container images.
+
+Install Kubernetes tools – e.g. kubectl and a local cluster like Minikube or kind.
+
+Configure Docker as container runtime (in older setups Docker is used as runtime; in newer, containerd etc., but just write this line in exam).
+
+Start Kubernetes cluster (e.g. minikube start).
+
+Use docker build to create images and tag them.
+
+Push image to a registry (Docker Hub) or make it available to the cluster.
+
+Use kubectl to create Pods/Deployments using that Docker image.
+
+This is enough as “integration of Docker with Kubernetes”.
+
+b) Basic kubectl commands
+
+Write a block like this:
+
+# Check cluster info
+kubectl cluster-info
+
+# List nodes
+kubectl get nodes
+
+# List pods
+kubectl get pods
+
+# Create deployment
+kubectl create deployment myapp --image=nginx
+
+# Expose deployment as service
+kubectl expose deployment myapp --type=NodePort --port=80
+
+# Describe a pod
+kubectl describe pod POD_NAME
+
+# Delete deployment
+kubectl delete deployment myapp
+
+3)
+Steps to create this job (write in exam)
+
+Open Jenkins → click New Item.
+
+Enter job name → select Pipeline → click OK.
+
+In configuration page, scroll to Build Triggers → tick Build periodically.
+
+In Schedule, enter:
+
+H/2 * * * *
+
+
+(Runs every 2 minutes.)
+
+In Pipeline section, choose Pipeline script and paste the Groovy code.
+
+Click Save.
+
+Jenkins will now run the job every 2 minutes and print system date/time in Console Output.
+pipeline {
+    agent any
+
+    triggers {
+        cron('H/2 * * * *')
+    }
+
+    stages {
+        stage('Print Date and Time') {
+            steps {
+                bat 'echo %DATE% %TIME%'
+            }
+        }
+    }
+}

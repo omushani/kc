@@ -1,0 +1,102 @@
+1. Develop an HTML page showing your favorite books/movies and push it to GitHub.
+
+2. Create a branch bio-update, add 3 hobbies to a file and push the branch.
+
+3. Create and run a Simple Python containerized application (e.g., number guessing) using Docker.
+
+1)
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Favourite Books and Movies</title>
+</head>
+<body>
+    <h2>My Favourite Books</h2>
+    <ul>
+        <li>Harry Potter</li>
+        <li>The Alchemist</li>
+        <li>Wings of Fire</li>
+    </ul>
+
+    <h2>My Favourite Movies</h2>
+    <ul>
+        <li>Inception</li>
+        <li>Interstellar</li>
+        <li>3 Idiots</li>
+    </ul>
+</body>
+</html>
+
+2)2️⃣ Create branch bio-update, add 3 hobbies, push branch
+
+Assume repo already exists and is connected to GitHub.
+
+Commands (exactly like this in exam)
+# Create and switch to new branch
+git checkout -b bio-update
+
+# Create a file and add 3 hobbies
+echo "My Hobbies:" > hobbies.txt
+echo "1. Reading" >> hobbies.txt
+echo "2. Playing games" >> hobbies.txt
+echo "3. Watching movies" >> hobbies.txt
+
+# Stage and commit the file
+git add hobbies.txt
+git commit -m "Add hobbies in bio-update branch"
+
+# Push the new branch to GitHub
+git push -u origin bio-update
+
+
+You can also mention:
+
+git branch → to list branches
+
+git checkout main → to go back to main branch
+
+3️⃣ Simple Python Number Guessing App in Docker
+
+app.py → Python program
+
+Dockerfile → to containerize
+
+docker build + docker run commands
+
+a) app.py
+import random
+
+print("Number Guessing Game")
+secret = random.randint(1, 10)
+
+guess = int(input("Guess a number between 1 and 10: "))
+
+if guess == secret:
+    print("Correct! You guessed the number.")
+else:
+    print("Wrong! The correct number was:", secret)
+
+b) Dockerfile
+# Use Python image
+FROM python:3.10-slim
+
+# Set working directory
+WORKDIR /app
+
+# Copy app file
+COPY app.py .
+
+# Run the Python program
+CMD ["python", "app.py"]
+
+c) Build and run container
+# Build Docker image
+docker build -t number-guess .
+
+# Run container (with input support)
+docker run -it number-guess
+
+
+-t number-guess → image name is number-guess
+
+-it → allows user input inside container
